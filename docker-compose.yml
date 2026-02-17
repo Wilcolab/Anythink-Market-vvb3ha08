@@ -1,19 +1,30 @@
+# Docker Compose Configuration for Anythink Market
+# This file orchestrates two backend services:
+# - Python FastAPI server (port 8000)
+# - Node.js Express server (port 8001)
+
 services:
+  # Python FastAPI Server
+  # Provides task management API with automatic reloading
   python-server:
     build:
-      context: ./python-server
-      dockerfile: Dockerfile
+      context: ./python-server      # Build context directory
+      dockerfile: Dockerfile         # Dockerfile location
     ports:
-      - 8000:8000
+      - 8000:8000                    # Map host:container port
     volumes:
+      # Mount source code for hot-reloading during development
       - ./python-server/src:/app/src
   
+  # Node.js Express Server  
+  # Scaffold server for future API endpoints with nodemon auto-reload
   express-server:
     build:
-      context: ./express-server
-      dockerfile: Dockerfile
+      context: ./express-server      # Build context directory
+      dockerfile: Dockerfile         # Dockerfile location
     ports:
-      - 8001:8001
+      - 8001:8001                    # Map host:container port
     volumes:
+      # Mount source code and package.json for hot-reloading
       - ./express-server/src:/app/src
       - ./express-server/package.json:/app/package.json
